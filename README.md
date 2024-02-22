@@ -237,7 +237,7 @@ func stringWidth(s string) int {
 
 // Update the cell width.
 func (b *Writer) updateWidth() {
-    // ++++++++++++++++++++++mycode+++++++++++++++++++++++++++++++++
+        // ++++++++++++++++++++++mycode+++++++++++++++++++++++++++++++++
 	//b.cell.width += utf8.RuneCount(b.buf[b.pos:])
 	b.cell.width += stringWidth(string(b.buf[b.pos:]))
 	// ++++++++++++++++++++++mycode+++++++++++++++++++++++++++++++++
