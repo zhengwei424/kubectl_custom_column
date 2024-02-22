@@ -173,10 +173,11 @@ func decorateTable(table *metav1beta1.Table, options PrintOptions) error {
 	return nil
 }
 ```
-<!--
+# 记录一下table的抬头字段入口位置
+```bash
 /opt/kubernetes-1.15.3/pkg/kubectl/cmd/get/humanreadable_flags.go
 line 99:	printersinternal.AddHandlers(p) 
--->
+```
 
 # 解决tabwriter中英文输出列不对其问题（需要修改format.go及tabwriter.go源码）
 /root/sdk/go1.19.1/src/fmt/format.go
