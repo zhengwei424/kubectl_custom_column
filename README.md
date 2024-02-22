@@ -30,7 +30,7 @@ func (h *HumanReadablePrinter) PrintObj(obj runtime.Object, output io.Writer) er
 			// If this table has column definitions, remember them for future use.
 			h.lastColumns = table.ColumnDefinitions
 		}
-		// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		// +++++++++++++++++++++++++++++++++++++mycode+++++++++++++++++++++++++++++++++++++++++++++++
 		// 添加代码（使用-L的方式添加自定义字段，这样避免对slice重组，提高打印效率）
 		// 判断资源类型是否需要添加自定义字段
 		customColumns := make([]string, 0)
@@ -42,14 +42,14 @@ func (h *HumanReadablePrinter) PrintObj(obj runtime.Object, output io.Writer) er
 			}
 		}
 		localOptions.ColumnLabels = append(customColumns, localOptions.ColumnLabels...)
-		// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		// +++++++++++++++++++++++++++++++++++++mycode+++++++++++++++++++++++++++++++++++++++++++++++
 		// 终端打印代码
 		if err := decorateTable(table, localOptions); err != nil {
 			return err
 		}
 		return printTable(table, output, localOptions)
 	}
-```
+
 
 // 在这里添加新的自定义字段,用添加便签的方式，模拟-L参数实现自定义字段
 func decorateTable(table *metav1beta1.Table, options PrintOptions) error {
@@ -113,7 +113,7 @@ func decorateTable(table *metav1beta1.Table, options PrintOptions) error {
 					m = acc
 				}
 			}
-			// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			// +++++++++++++++++++++++++++++++++++++mycode+++++++++++++++++++++++++++++++++++++++++++++++
 			// 获取项目名称并设置lable
 			tmpLables := make(map[string]string)
 			if len(options.ColumnLabels) > 0 && options.ColumnLabels[0] == "project" {
@@ -141,7 +141,7 @@ func decorateTable(table *metav1beta1.Table, options PrintOptions) error {
 					}
 				}
 			}
-			// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			// +++++++++++++++++++++++++++++++++++++mycode+++++++++++++++++++++++++++++++++++++++++++++++
 
 			// if we can't get an accessor, fill out the appropriate columns with empty spaces
 			if m == nil {
@@ -172,7 +172,7 @@ func decorateTable(table *metav1beta1.Table, options PrintOptions) error {
 	table.Rows = rows
 	return nil
 }
-
+```
 <!--
 /opt/kubernetes-1.15.3/pkg/kubectl/cmd/get/humanreadable_flags.go
 line 99:	printersinternal.AddHandlers(p) 
