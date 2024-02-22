@@ -173,7 +173,7 @@ func decorateTable(table *metav1beta1.Table, options PrintOptions) error {
 	return nil
 }
 ```
-# 记录一下table的抬头字段入口位置
+# 记录一下table的抬头字段入口位置(忽略)
 ```bash
 /opt/kubernetes-1.15.3/pkg/kubectl/cmd/get/humanreadable_flags.go
 line 99:	printersinternal.AddHandlers(p) 
