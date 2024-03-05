@@ -2,6 +2,40 @@
 
 实现方式是参考kubectl get 命令的-L参数的终端输出逻辑，通过在源码中添加自定义lable来实现自定义字段打印的效果，感觉这种方式的输出效率最高，如果将自定义字段插入到已有字段中间，会涉及到每行数据的顺序调整，查询量较大时计算量较大，输出慢
 
+/opt/kubernetes-1.15.3/pkg/kubectl/cmd/cmd.go
+```go
+func NewDefaultKubectlCommandWithArgs(pluginHandler PluginHandler, args []string, in io.Reader, out, errout io.Writer) *cobra.Command {
+
+	cmd := NewKubectlCommand(in, out, errout)
+
+	if pluginHandler == nil {
+		return cmd
+	}
+
+	if len(args) > 1 {
+		cmdPathPieces := args[1:]
+		// +++++++++++++++++++++++++++++++++++++++mycode+++++++++++++++++++++++++++++++++++++++++++++
+		for _, item := range cmdPathPieces {
+			if item == "all" || item == "-A" || strings.Contains(item, "--all-namespaces") {
+				mypkg.IsSkip = true
+				break
+			}
+		}
+		// +++++++++++++++++++++++++++++++++++++++mycode+++++++++++++++++++++++++++++++++++++++++++++
+		// only look for suitable extension executables if
+		// the specified command does not already exist
+		if _, _, err := cmd.Find(cmdPathPieces); err != nil {
+			if err := HandlePluginCommand(pluginHandler, cmdPathPieces); err != nil {
+				fmt.Fprintf(errout, "%v\n", err)
+				os.Exit(1)
+			}
+		}
+	}
+
+	return cmd
+}
+```
+
 /opt/kubernetes-1.15.3/pkg/printers/tableprinter.go
 ```go
 func (h *HumanReadablePrinter) PrintObj(obj runtime.Object, output io.Writer) error {
